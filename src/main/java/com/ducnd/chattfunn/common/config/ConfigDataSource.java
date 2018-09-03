@@ -1,6 +1,5 @@
 package com.ducnd.chattfunn.common.config;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.mchange.v2.c3p0.DriverManagerDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -9,7 +8,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 
 import javax.sql.DataSource;
-import java.beans.PropertyVetoException;
 
 @Configuration
 public class ConfigDataSource {
@@ -38,7 +36,12 @@ public class ConfigDataSource {
 //        }
 //        return dataSource;
 
-
+//        org.apache.tomcat.jdbc.pool.DataSource dataSource = new org.apache.tomcat.jdbc.pool.DataSource();
+//        dataSource.setUrl(environment.getProperty("spring.datasource.url"));
+//        dataSource.setUsername(environment.getProperty("spring.datasource.username"));
+//        dataSource.setPassword(environment.getProperty("spring.datasource.password"));
+//        dataSource.setDriverClassName(environment.getProperty("spring.datasource.driver-class-name"));
+//        dataSource.setInitSQL("ALTER SESSION SET CURRENT_SCHEMA=public");
 
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClass(environment.getProperty("spring.datasource.driver-class-name"));
