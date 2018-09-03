@@ -7,5 +7,6 @@ public interface MessageResponses {
     String FORMAT_VALUE_INVALID = "Format value invalid";
     String FRIEND_ID_NOT_NULL_OR_EMPTY = "FriendId not null or empty";
     String CAN_NOT_ADD_FRIEND_MY_ID = "Can not add my id to friend";
+
     String USER_NOT_FOUND = "FriendId not found";
 }
