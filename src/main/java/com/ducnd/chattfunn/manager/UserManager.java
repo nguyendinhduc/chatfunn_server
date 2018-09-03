@@ -39,6 +39,7 @@ public class UserManager implements MessageResponses {
         if (userProfile == null) {
             throw new ExceptionResponse(new ObjectError(ObjectError.ERROR_NOT_FOUND, USER_EXIST),
                     HttpStatus.NOT_FOUND);
+
         }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         if (!encoder.matches(request.getPassword(), userProfile.getPassword())) {
