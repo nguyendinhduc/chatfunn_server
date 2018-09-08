@@ -11,7 +11,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user_profile")
+@Table(name = "d4c8bsjrs33kc9.public.user_profile")
 public class UserProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
