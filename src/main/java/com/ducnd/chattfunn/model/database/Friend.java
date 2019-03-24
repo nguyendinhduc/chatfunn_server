@@ -14,36 +14,35 @@ import javax.persistence.*;
 public class Friend {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private long senderId;
-    private long receiverId;
+    private int id;
+    private int senderId;
+    private int receiverId;
     @CreatedDate
     @Generated(GenerationTime.INSERT)
     private LocalDateTime createdTime;
-    private BooleanTypeDb isAccepted;
-    private BooleanTypeDb isDelete;
+    private boolean isDelete;
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public long getSenderId() {
+    public int getSenderId() {
         return senderId;
     }
 
-    public void setSenderId(long senderId) {
+    public void setSenderId(int senderId) {
         this.senderId = senderId;
     }
 
-    public long getReceiverId() {
+    public int getReceiverId() {
         return receiverId;
     }
 
-    public void setReceiverId(long receiverId) {
+    public void setReceiverId(int receiverId) {
         this.receiverId = receiverId;
     }
 
@@ -51,24 +50,16 @@ public class Friend {
         return createdTime;
     }
 
-    @Generated(GenerationTime.INSERT)
     public void setCreatedTime(LocalDateTime createdTime) {
         this.createdTime = createdTime;
     }
 
-    public BooleanTypeDb getIsAccepted() {
-        return isAccepted;
-    }
-
-    public void setIsAccepted(BooleanTypeDb isAccepted) {
-        this.isAccepted = isAccepted;
-    }
-
-    public BooleanTypeDb getIsDelete() {
+    public boolean isDelete() {
         return isDelete;
     }
 
-    public void setIsDelete(BooleanTypeDb isDelete) {
-        this.isDelete = isDelete;
+    public void setDelete(boolean delete) {
+        isDelete = delete;
     }
+
 }

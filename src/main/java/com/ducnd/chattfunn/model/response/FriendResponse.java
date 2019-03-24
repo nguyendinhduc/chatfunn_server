@@ -4,39 +4,40 @@ import com.ducnd.chattfunn.model.database.type.MessageType;
 import org.joda.time.LocalDateTime;
 
 public class FriendResponse {
-    private long id;
-    private long friendId;
-    private Long senderId;
-    private Long receiverId;
-    private Long lastMessageId;
+    private int id;
+    private int friendId;
+    private Integer senderId;
+    private Integer receiverId;
     private String displayNameFriend;
     private MessageType type;
     private String content;
-    private String likeFile;
+    private String friendAvatar;
     private LocalDateTime created;
+    private boolean isOnline;
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Long getSenderId() {
-        return senderId;
+    public int getFriendId() {
+        return friendId;
     }
 
-    public void setSenderId(Long senderId) {
-        this.senderId = senderId;
+    public void setFriendId(int friendId) {
+        this.friendId = friendId;
     }
 
-    public Long getLastMessageId() {
-        return lastMessageId;
+
+    public String getDisplayNameFriend() {
+        return displayNameFriend;
     }
 
-    public void setLastMessageId(Long lastMessageId) {
-        this.lastMessageId = lastMessageId;
+    public void setDisplayNameFriend(String displayNameFriend) {
+        this.displayNameFriend = displayNameFriend;
     }
 
     public MessageType getType() {
@@ -55,14 +56,6 @@ public class FriendResponse {
         this.content = content;
     }
 
-    public String getLikeFile() {
-        return likeFile;
-    }
-
-    public void setLikeFile(String likeFile) {
-        this.likeFile = likeFile;
-    }
-
     public LocalDateTime getCreated() {
         return created;
     }
@@ -71,27 +64,35 @@ public class FriendResponse {
         this.created = created;
     }
 
-    public String getDisplayNameFriend() {
-        return displayNameFriend;
+    public String getFriendAvatar() {
+        return friendAvatar;
     }
 
-    public void setDisplayNameFriend(String displayNameFriend) {
-        this.displayNameFriend = displayNameFriend;
+    public void setFriendAvatar(String friendAvatar) {
+        this.friendAvatar = friendAvatar;
     }
 
-    public Long getReceiverId() {
+    public Integer getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(Integer senderId) {
+        this.senderId = senderId;
+    }
+
+    public Integer getReceiverId() {
         return receiverId;
     }
 
-    public void setReceiverId(Long receiverId) {
+    public void setReceiverId(Integer receiverId) {
         this.receiverId = receiverId;
     }
 
-    public long getFriendId() {
-        return friendId;
+    public boolean isOnline() {
+        return isOnline;
     }
 
-    public void setFriendId(long friendId) {
-        this.friendId = friendId;
+    public void setOnline(boolean online) {
+        isOnline = online;
     }
 }

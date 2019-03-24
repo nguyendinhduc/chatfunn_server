@@ -13,6 +13,6 @@ import java.util.List;
 public interface ContentCommonRepository extends JpaRepository<ContentCommon, ContentCommonId> {
     @Query(nativeQuery = true, value = "SELECT user_profile.id AS id, user_profile.display_name AS name FROM user_profile WHERE user_profile.id IN :userIds")
     List<ContentCommon> findAllUserByUserIds(
-            @Param(value = "userIds") List<Long> userIds
+            @Param(value = "userIds") List<Integer> userIds
     );
 }

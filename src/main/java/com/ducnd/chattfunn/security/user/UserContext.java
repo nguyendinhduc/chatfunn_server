@@ -4,12 +4,12 @@ package com.ducnd.chattfunn.security.user;
 
 public class UserContext {
     private String username;
-    private long id;
+    private int id;
     private String email;
     private String displayName;
     private String token;
 
-    public UserContext(long id, String username, String token) {
+    public UserContext(int id, String username, String token) {
         this.username = username;
         this.token = token;
         this.id = id;
@@ -23,11 +23,11 @@ public class UserContext {
         this.username = username;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

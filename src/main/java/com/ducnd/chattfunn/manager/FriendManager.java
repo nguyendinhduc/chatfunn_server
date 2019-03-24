@@ -11,6 +11,7 @@ import com.ducnd.chattfunn.model.database.type.BooleanTypeDb;
 import com.ducnd.chattfunn.model.out.ContentCommon;
 import com.ducnd.chattfunn.model.response.FriendResponse;
 import com.ducnd.chattfunn.repository.out.ContentCommonRepository;
+import com.ducnd.chattfunn.repository.out.OtherFriendRepository;
 import com.ducnd.chattfunn.repository.user.FriendRepository;
 import com.ducnd.chattfunn.repository.user.MessageRepository;
 import com.ducnd.chattfunn.repository.user.UserProfileRepository;
@@ -34,13 +35,15 @@ public class FriendManager implements MessageResponses {
     private MessageRepository messageRepository;
     @Autowired
     private UserProfileRepository userProfileRepository;
+    @Autowired
+    private OtherFriendRepository otherFriendRepository;
 
-    public Object addFriend(List<Long> friendIds) throws ExceptionResponse {
+    public Object addFriend(List<Integer> friendIds) throws ExceptionResponse {
         if (friendIds == null || friendIds.size() == 0) {
             throw new ExceptionResponse(new ObjectError(ObjectError.ERROR_PARAM, FRIEND_ID_NOT_NULL_OR_EMPTY),
                     HttpStatus.BAD_REQUEST);
         }
-        long userId = CommonUtils.getUserLogin();
+        int userId = CommonUtils.getUserLogin();
         if (friendIds.contains(userId)) {
             throw new ExceptionResponse(new ObjectError(ObjectError.ERROR_PARAM, CAN_NOT_ADD_FRIEND_MY_ID),
                     HttpStatus.BAD_REQUEST);
@@ -50,12 +53,15 @@ public class FriendManager implements MessageResponses {
             throw new ExceptionResponse(new ObjectError(ObjectError.ERROR_PARAM, USER_NOT_FOUND),
                     HttpStatus.BAD_REQUEST);
         }
+        int countFriendsExist = friendRepository.countFriendsIn(userId, friendIds);
+        if (countFriendsExist > 0 ){
+            throw new ExceptionResponse(new ObjectError(ObjectError.ERROR_PARAM, FRIEND_ADD_FRIEND),
+                    HttpStatus.BAD_REQUEST);
+        }
         List<Friend> friends = friendIds.stream().map(friendId -> {
             Friend friend = new Friend();
             friend.setSenderId(userId);
             friend.setReceiverId(friendId);
-            friend.setIsAccepted(BooleanTypeDb.FALSE);
-            friend.setIsDelete(BooleanTypeDb.FALSE);
             return friend;
         }).collect(Collectors.toList());
         return friendRepository.save(friends);
@@ -63,14 +69,14 @@ public class FriendManager implements MessageResponses {
 
     @Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
     public Object getFriends() {
-        long userId = CommonUtils.getUserLogin();
+        int userId = CommonUtils.getUserLogin();
         List<Friend> friends = friendRepository.findAllByUserId(userId);
-        List<Long> friendIds = friends.stream().map(Friend::getReceiverId).collect(Collectors.toList());
+        List<Integer> friendIds = friends.stream().map(Friend::getReceiverId).collect(Collectors.toList());
         friendIds.addAll(
                 friends.stream().map(Friend::getSenderId).collect(Collectors.toList())
         );
         CommonUtils.stream(friendIds);
-        for (Long friendId : friendIds) {
+        for (Integer friendId : friendIds) {
             if (friendId == userId) {
                 friendIds.remove(friendId);
                 break;
@@ -81,7 +87,7 @@ public class FriendManager implements MessageResponses {
         }
 
         List<UserProfile> userProfiles = userProfileRepository.findAllByIds(friendIds);
-        List<ContentCommon> contentCommons = contentCommonRepository.findAllUserByUserIds(friendIds);
+//        List<ContentCommon> contentCommons = contentCommonRepository.findAllUserByUserIds(friendIds);
         List<Message> messages = messageRepository.findLastMessageAllByUserIds(friendIds, userId);
 
         List<FriendResponse> friendResponses = friends.stream().map(friend -> {
@@ -91,23 +97,29 @@ public class FriendManager implements MessageResponses {
             Message message = CommonUtils.findObject(messages, msg ->
                     (msg.getSenderId() == friend.getSenderId() && msg.getReceiverId() == friend.getReceiverId()) ||
                             (msg.getReceiverId() == friend.getSenderId() && msg.getSenderId() == friend.getReceiverId()));
+
             if (message != null) {
                 friendResponse.setSenderId(message.getSenderId());
                 friendResponse.setReceiverId(message.getReceiverId());
                 friendResponse.setContent(message.getContent());
-                friendResponse.setLikeFile(message.getLinkFile());
                 friendResponse.setType(message.getType());
-                friendResponse.setLastMessageId(message.getId());
                 friendResponse.setCreated(message.getCreatedTime());
             }
             UserProfile userProfile = CommonUtils.findObject(userProfiles, user -> user.getId() == friendResponse.getFriendId());
             if (userProfile != null) {
                 friendResponse.setDisplayNameFriend(userProfile.getDisplayName());
+                friendResponse.setFriendAvatar(userProfile.getAvatar());
+                friendResponse.setOnline(userProfile.isOnline());
             }
 
 
             return friendResponse;
         }).collect(Collectors.toList());
         return friendResponses;
+    }
+
+    public Object findAllOtherFriend() {
+        int userId = CommonUtils.getUserLogin();
+        return otherFriendRepository.findAllOtherFriend(userId);
     }
 }

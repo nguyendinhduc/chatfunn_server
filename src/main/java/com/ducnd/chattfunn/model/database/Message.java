@@ -6,6 +6,7 @@ import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import org.joda.time.LocalDateTime;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 
@@ -14,38 +15,41 @@ import javax.persistence.*;
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private long senderId;
-    private long receiverId;
+    private int id;
+    private int senderId;
+    private int receiverId;
     private String content;
-    private String linkFile;
+    private MessageType type;
     @CreatedDate
     @Generated(GenerationTime.INSERT)
     private LocalDateTime createdTime;
-    private BooleanTypeDb isRead;
-    private MessageType type;
+    @LastModifiedDate
+    @Generated(GenerationTime.ALWAYS)
+    private LocalDateTime lastUpdate;
+    private boolean isRead;
 
-    public long getId() {
+
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public long getSenderId() {
+    public int getSenderId() {
         return senderId;
     }
 
-    public void setSenderId(long senderId) {
+    public void setSenderId(int senderId) {
         this.senderId = senderId;
     }
 
-    public long getReceiverId() {
+    public int getReceiverId() {
         return receiverId;
     }
 
-    public void setReceiverId(long receiverId) {
+    public void setReceiverId(int receiverId) {
         this.receiverId = receiverId;
     }
 
@@ -57,36 +61,35 @@ public class Message {
         this.content = content;
     }
 
-    public String getLinkFile() {
-        return linkFile;
-    }
-
-    public void setLinkFile(String linkFile) {
-        this.linkFile = linkFile;
-    }
-
-    public LocalDateTime getCreatedTime() {
-        return createdTime;
-    }
-
-    @Generated(GenerationTime.INSERT)
-    public void setCreatedTime(LocalDateTime createdTime) {
-        this.createdTime = createdTime;
-    }
-
-    public BooleanTypeDb getIsRead() {
-        return isRead;
-    }
-
-    public void setIsRead(BooleanTypeDb isRead) {
-        this.isRead = isRead;
-    }
-
     public MessageType getType() {
         return type;
     }
 
     public void setType(MessageType type) {
         this.type = type;
+    }
+
+    public LocalDateTime getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(LocalDateTime createdTime) {
+        this.createdTime = createdTime;
+    }
+
+    public LocalDateTime getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(LocalDateTime lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public boolean isRead() {
+        return isRead;
+    }
+
+    public void setRead(boolean read) {
+        isRead = read;
     }
 }

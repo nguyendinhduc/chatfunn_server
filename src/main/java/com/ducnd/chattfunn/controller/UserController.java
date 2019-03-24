@@ -23,13 +23,13 @@ public class UserController {
     public ResponseEntity register(
             @RequestBody @Valid RegisterRequest request
     ) throws ExceptionResponse {
-        return new ResponseEntity(service.register(request), HttpStatus.OK);
+        return new ResponseEntity<>(service.register(request), HttpStatus.OK);
     }
 
     @PostMapping(value = Constants.URL_LOGIN)
     public ResponseEntity login(
             @RequestBody @Valid LoginRequest request
     ) throws ExceptionResponse{
-        return new ResponseEntity(service.login(request), HttpStatus.OK);
+        return new ResponseEntity<>(service.login(request), HttpStatus.OK);
     }
 }

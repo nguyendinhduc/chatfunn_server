@@ -2,6 +2,7 @@ package com.ducnd.chattfunn.manager;
 
 import com.ducnd.chattfunn.common.MessageResponses;
 import com.ducnd.chattfunn.common.exception.ExceptionResponse;
+import com.ducnd.chattfunn.common.utils.CommonUtils;
 import com.ducnd.chattfunn.model.ObjectError;
 import com.ducnd.chattfunn.model.database.UserProfile;
 import com.ducnd.chattfunn.model.request.LoginRequest;
@@ -25,13 +26,13 @@ public class UserManager implements MessageResponses {
         }
         UserProfile userProfile = new UserProfile();
         userProfile.setAvatar(request.getAvatar());
-        userProfile.setBirthDay(request.getBirthDay());
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         userProfile.setPassword(encoder.encode(request.getPassword()));
         userProfile.setDisplayName(request.getDisplayName());
         userProfile.setEmail(request.getEmail());
+        userProfile = userProfileRepository.save(userProfile);
         userProfile.setToken(JwtAuthenticationToken.generateToken(userProfile));
-        return userProfileRepository.save(userProfile);
+        return userProfile;
     }
 
     public Object login(LoginRequest request) throws ExceptionResponse {

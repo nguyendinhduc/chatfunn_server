@@ -12,7 +12,6 @@ public class RegisterRequest {
     private String avatar;
     @NotBlank
     private String password;
-    private LocalDate birthDay;
 
     public String getEmail() {
         return email;
@@ -44,13 +43,5 @@ public class RegisterRequest {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public LocalDate getBirthDay() {
-        return birthDay;
-    }
-
-    public void setBirthDay(LocalDate birthDay) {
-        this.birthDay = birthDay;
     }
 }

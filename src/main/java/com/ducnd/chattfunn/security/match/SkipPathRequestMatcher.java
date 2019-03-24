@@ -1,6 +1,7 @@
 package com.ducnd.chattfunn.security.match;
 
 import org.apache.http.client.methods.HttpOptions;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
@@ -15,13 +16,13 @@ import java.util.stream.Collectors;
 public class SkipPathRequestMatcher implements RequestMatcher {
     private OrRequestMatcher matchers;
     private RequestMatcher processingMatcher;
-    private List<String> pathsToSkip;
 
-    public SkipPathRequestMatcher(List<String> pathsToSkip, String processingPath) {
-        List<RequestMatcher> m = pathsToSkip.stream().map(AntPathRequestMatcher::new).collect(Collectors.toList());
+    public SkipPathRequestMatcher(List<String> listNotmapPost, List<String> listNotmapGet, String processingPath) {
+        List<RequestMatcher> m = listNotmapPost.stream().map(o-> new AntPathRequestMatcher(o, HttpMethod.POST.name())).collect(Collectors.toList());
+        m.addAll(listNotmapGet.stream().map(o-> new AntPathRequestMatcher(o, HttpMethod.GET.name())).collect(Collectors.toList()));
+
         matchers = new OrRequestMatcher(m);
         processingMatcher = new AntPathRequestMatcher(processingPath);
-        this.pathsToSkip = pathsToSkip;
     }
 
     @Override

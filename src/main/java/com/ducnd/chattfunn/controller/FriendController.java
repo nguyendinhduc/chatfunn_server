@@ -20,14 +20,21 @@ public class FriendController {
 
     @PostMapping(value = Constants.URL_FRIEND)
     public ResponseEntity addFriend(
-            @RequestParam(value = "friendIds") List<Long> friendIds
+            @RequestParam(value = "friendIds") List<Integer> friendIds
     ) throws ExceptionResponse {
-        return new ResponseEntity(service.addFriend(friendIds), HttpStatus.OK);
+        return new ResponseEntity<>(service.addFriend(friendIds), HttpStatus.OK);
     }
 
     @GetMapping(value = Constants.URL_FRIENDS)
     public ResponseEntity getFriends(
     ) throws ExceptionResponse {
-        return new ResponseEntity(service.getFriends(), HttpStatus.OK);
+        return new ResponseEntity<>(service.getFriends(), HttpStatus.OK);
     }
+
+    @GetMapping(value = Constants.URL_OTHER_FRIENDS)
+    public ResponseEntity findAllOtherFriend() throws ExceptionResponse{
+        return new ResponseEntity<>(service.findAllOtherFriend(), HttpStatus.OK);
+    }
+
+
 }

@@ -42,7 +42,7 @@ public class CommonUtils {
         objectMapper.registerModule(javaTimeModule);
     }
 
-    public static long getUserLogin() {
+    public static int getUserLogin() {
         return ((UserContext) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
     }
 

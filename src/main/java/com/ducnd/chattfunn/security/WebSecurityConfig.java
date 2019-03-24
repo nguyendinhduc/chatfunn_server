@@ -73,10 +73,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    private JwtTokenAuthenticationProcessingFilter buildJwtTokenAuthenticationProcessingFilter(List<String> listNotmap) {
+    private JwtTokenAuthenticationProcessingFilter buildJwtTokenAuthenticationProcessingFilter(List<String> listNotmapPost, List<String> listNotmapGet) {
 
 
-        RequestMatcher matcher = new SkipPathRequestMatcher(listNotmap, Constants.END_POINT_MATCH_API);
+        RequestMatcher matcher = new SkipPathRequestMatcher(listNotmapPost, listNotmapGet, Constants.END_POINT_MATCH_API);
         JwtTokenAuthenticationProcessingFilter filter
                 = new JwtTokenAuthenticationProcessingFilter(matcher,
                 new AjaxTokenAuthenticationFailureHandler(objectMapper),
@@ -98,12 +98,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(restAuthenticationEntryPoint)
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
-                .antMatchers(Constants.API_SKIP_AUTHEN.toArray(new String[0]))
+                .antMatchers(Constants.API_SKIP_POST.toArray(new String[0]))
                 .permitAll()
                 .and().authorizeRequests()
                 .antMatchers(Constants.END_POINT_MATCH_API).authenticated()
                 .and()
-                .addFilterBefore(buildJwtTokenAuthenticationProcessingFilter(Constants.API_SKIP_AUTHEN),
+                .addFilterBefore(buildJwtTokenAuthenticationProcessingFilter(Constants.API_SKIP_POST, Constants.API_SKIP_GET),
                         UsernamePasswordAuthenticationFilter.class);
 
 

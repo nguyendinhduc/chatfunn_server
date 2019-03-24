@@ -26,7 +26,7 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
         Jws<Claims> claimsJws = parseClaims(token);
         Claims body = claimsJws.getBody();
         String email = body.get("email", String.class);
-        long id = Long.valueOf(body.getId());
+        int id = Integer.valueOf(body.getId());
         String displayName = body.get("display_name", String.class);
 
         this.userContext = new UserContext(id, email, token);

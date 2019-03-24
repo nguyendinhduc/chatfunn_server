@@ -9,4 +9,5 @@ public interface MessageResponses {
     String CAN_NOT_ADD_FRIEND_MY_ID = "Can not add my id to friend";
 
     String USER_NOT_FOUND = "FriendId not found";
+    String FRIEND_ADD_FRIEND = "Friend added";
 }

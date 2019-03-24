@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UserProfileRepository extends JpaRepository<UserProfile, Long> {
+public interface UserProfileRepository extends JpaRepository<UserProfile, Integer> {
     @Query(nativeQuery = true, value = "SELECT COUNT(id) FROM user_profile WHERE user_profile.email = :email")
-    int getCountByEmail(
+    long getCountByEmail(
             @Param(value = "email") String email
     );
 
@@ -22,11 +22,13 @@ public interface UserProfileRepository extends JpaRepository<UserProfile, Long> 
 
     @Query(nativeQuery = true, value = "SELECT * FROM user_profile WHERE user_profile.id IN :userIds")
     List<UserProfile> findAllByIds(
-            @Param(value = "userIds") List<Long> userIds
+            @Param(value = "userIds") List<Integer> userIds
     );
 
     @Query(nativeQuery = true, value = "SELECT COUNT(user_profile.id) FROM user_profile WHERE id IN :friendIds")
     int countUser(
-            @Param(value = "friendIds") List<Long> friendIds
+            @Param(value = "friendIds") List<Integer> friendIds
     );
+
+
 }

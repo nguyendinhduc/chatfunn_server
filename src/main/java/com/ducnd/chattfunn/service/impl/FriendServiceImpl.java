@@ -13,12 +13,17 @@ public class FriendServiceImpl implements FriendService {
     @Autowired
     private FriendManager manager;
     @Override
-    public Object addFriend(List<Long> friendIds) throws ExceptionResponse {
+    public Object addFriend(List<Integer> friendIds) throws ExceptionResponse {
         return manager.addFriend(friendIds);
     }
 
     @Override
     public Object getFriends() {
         return manager.getFriends();
+    }
+
+    @Override
+    public Object findAllOtherFriend() throws ExceptionResponse {
+        return manager.findAllOtherFriend();
     }
 }
